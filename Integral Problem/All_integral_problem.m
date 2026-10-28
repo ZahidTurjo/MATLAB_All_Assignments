@@ -1,0 +1,337 @@
+%% 1
+clc;
+clear;
+close all;
+
+syms x;
+
+y1=x^2;
+y2=4-x^2;
+
+intersection_point=solve(y1==y2,x);
+
+a=-sqrt(2);
+b=sqrt(2);
+
+integrad=y1-y2;
+
+area=int(integrad,x,a,b);
+
+fprintf("Area=%g\n",double(area));
+figure;
+
+fplot(y1,'b', 'LineWidth', 2);
+hold on;
+
+fplot(y2, 'r', 'LineWidth', 2);
+
+xx = linspace(double(a), double(b), 400);
+yy1 = xx.^2;
+yy2 = 4 - xx.^2;
+
+
+fill([xx,fliplr(xx)],[yy1,fliplr(yy2)],[0.7,1.0,1.0],'EdgeColor','none')
+
+
+xlabel("x")
+ylabel("y")
+
+legend("y=x^2","y=4-x^2","shaded region")
+
+
+%% 3
+
+clc;
+clear;
+close all;
+
+syms y;
+x1=(y^2)/4;
+x2=(y+1)/8;
+
+intersection_point=solve(x1==x2,y);
+a = intersection_point(1);
+b = intersection_point(2);
+
+integrand=x2-x1;
+
+area=int(integrand,y,a,b);
+area=double(area)
+
+figure;
+fplot(x1,Color='b',LineWidth=2);
+hold on;
+fplot(x2,Color='r',LineWidth=2);
+
+yy=linspace(double(a),double(b),1000);
+xx1=(yy.^2)/4;
+xx2=(yy+1)/8;
+fill([yy,fliplr(yy)], ...
+    [xx1,fliplr(xx2)], ...
+    [0.7,1.0,1.0],'EdgeColor','none')
+xlim([-1 1.5]);
+
+
+hold off;
+
+
+%% 4
+
+clc;
+clear ;
+close all;
+clearvars;
+
+syms y;
+
+x1=3;
+x2=sqrt(25-y^2);
+
+intersection_point=solve(x1==x2,y);
+
+a=intersection_point(1);
+b=intersection_point(2);
+
+integrad=x2-x1;
+area=int(integrad,y,a,b);
+area=double(area)
+
+figure;
+fplot(x1,Color='b',LineWidth=2);
+hold on;
+fplot(x2,Color='r',LineWidth=2);
+
+yy=linspace(a,b,500);
+xx2=sqrt(25-yy.^2);
+
+fill([yy,fliplr(yy)], ...
+    [3*ones(size(yy)),fliplr(xx2)], ...
+    [0.75,1.0,1.0], ...
+    'EdgeColor','none')
+
+
+ylim([2 5.5]);
+hold off;
+
+%% 5
+clc;
+clear ;
+close all;
+clearvars;
+
+syms theta a;
+
+r=a*sin(2*theta);
+
+a=0;
+b=pi/2;
+
+itegrad=(1/2)*r^2;
+
+area=int(itegrad,theta,a,b)
+
+a_value=2;
+
+thetaxx=linspace(0,2*pi,5000);
+values=a_value*sin(2*thetaxx);
+
+figure;
+polarplot(thetaxx,values,'b')
+
+
+%% 6
+clc;
+clear;
+close all;
+clearvars;
+
+syms theta a;
+
+r=a*(1+cos(theta));
+
+integrand=(1/2)*r^2;
+
+area=int(integrand,theta,0,2*pi)
+figure;
+a_value=2;
+
+theta_value=linspace(0,2*pi,500);
+r_value=a_value*(1+cos(theta_value));
+polarplot(theta_value,r_value)
+
+%% 7
+clc;
+clear;
+close all;
+
+syms x;
+
+y=x*sqrt(1-x^2)/sqrt(8);
+
+df=diff(y,x);
+
+integrand=sqrt(1+df^2);
+f=matlabFunction(integrand);
+
+arc_length=int(f,0,1,'RelTol',1e-8)
+
+%%
+
+clc;
+clear;
+close all;
+
+syms x;
+
+y = x*sqrt(1-x^2)/sqrt(8);
+
+df = diff(y,x);
+integrand = sqrt(1 + df^2);
+
+% Convert symbolic expression to a numerical function
+f = matlabFunction(integrand);
+
+% Numerical integration
+arc_length_quarter = integral(f, 0, 1, 'RelTol', 1e-8);
+
+Total_arc_length=4*arc_length_quarter
+
+xx = linspace(-1, 1, 1000);
+yy = xx .* sqrt(1 - xx.^2) / sqrt(8);
+
+% Plot curve
+figure;
+plot(xx, yy, 'b', 'LineWidth', 2);
+
+yline(0, 'k-');
+xline(0, 'k-');
+
+xlabel('x');
+ylabel('y');
+title('Curve: y = x sqrt(1-x^2) / sqrt(8)');
+grid on;
+axis equal;
+
+
+%% 7 
+clc;
+clear;
+close all;
+
+syms x;
+
+y = x*sqrt(1-x^2)/sqrt(8);
+
+df = diff(y,x);
+
+f=matlabFunction(df);
+
+L_upper = integral(@(a) sqrt(1 + f(a).^2), -1, 1);
+
+% Entire curve
+L_total = 2 * L_upper;
+
+xx=linspace(-1,1,1000);
+yy=subs(y,x,xx);
+
+plot(xx,yy);
+xline(0,'k-');
+yline(0,'k-');
+grid on;
+
+%% 8
+clc;
+
+clearvars;
+close all;
+
+syms x a positive
+
+y_s=a^2-x^2;
+
+integrand=pi*y_s;
+
+volume_x=int(integrand,x,-a,a);
+
+fprintf("volume: ");
+disp(simplify(volume_x));
+
+fprintf("When a =3 ,volume is = ");
+disp(subs(volume_x,a,3))
+
+%% 9
+
+clc;
+clear;
+close all;
+clearvars;
+
+
+syms x
+
+y=sin(x);
+
+integrad=pi*y^2;
+
+vol=int(integrad,x,0,pi)
+
+figure;
+fplot(y,[0 ,pi]);
+hold on;
+
+yline(0, '--k');
+title("curve y=sinx from 0 to pi");
+
+
+%% 10
+clc;
+clear ;
+close all;
+clearvars;
+
+syms y a b;
+
+x_s=(1-(y^2/b^2))*a^2;
+inte=pi*x_s;
+
+vol=int(inte,y,-b,b);
+fprintf("Exact volume: ");
+disp(vol)
+
+fprintf("When a=2 b=3 volume = ");
+disp(subs(vol,[a,b],[2,3]));
+
+a_val=2;
+b_val=3;
+
+yy=linspace(-10,10,1000);
+xx=(1-(yy.^2/b_val^2))*a_val^2;
+
+plot(xx,yy)
+
+%% 11
+clc;
+clear;
+close all;
+clearvars;
+
+syms x a positive;
+y=2*sqrt(a*x);
+df=diff(y,x);
+
+integrand=2*pi*y*sqrt(1+df^2);
+
+surface_area=int(integrand,x,0,a);
+
+
+fprintf("Exact surface_area: ");
+disp(surface_area);
+
+fprintf("When x=2 surface area= ");
+disp(double(subs(surface_area,a,2)));
+
+a_val=2;
+xx=linspace(-0,10,1000);
+yy=2*sqrt(a_val*xx);
+
+plot(xx,yy)
